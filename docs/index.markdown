@@ -4,3 +4,12 @@
 
 layout: home
 ---
+
+
+
+{: .note }
+A paragraph
+
+# Headline
+
+## Sub header

@@ -27,12 +27,35 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
+# Theme
+# remote_theme: sighingnow/jekyll-gitbook
+# syntax_highlighter_style: colorful
+
+toc:
+  enabled: true
+  h_min: 1
+  h_max: 3
+# markdown render engine.
+markdown:         kramdown
+kramdown:
+  auto_ids:               true
+  input:                  GFM
+  math_engine:            mathjax
+  smart_quotes:           lsquo,rsquo,ldquo,rdquo
+  toc_levels:             1..6
+  syntax_highlighter:     rouge
+  syntax_highlighter_opts:
+    guess_lang:           true
+
 
 # Build settings
 theme: just-the-docs
+color_scheme: light
+
 plugins:
   - jekyll-feed
   - jekyll-mermaid
+
 
 mermaid:
   src: 'https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.0/mermaid.min.js'

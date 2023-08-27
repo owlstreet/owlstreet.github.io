@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Integration Platform iPaaS
-nav_order: 1
+nav_order: 20
 has_children: true
 ---
 

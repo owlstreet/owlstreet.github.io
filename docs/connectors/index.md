@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Built in connectors
-nav_order: 3
+nav_order: 50
 has_children: true
 ---
 
@@ -62,3 +62,7 @@ A payment service provider (PSP) is a checkout solution for retailers, like Klar
 - Klarna
 - Svea
 
+## TA System
+OwlStreet integrates with popular freight checkout solutions like Klarna Shipping Assistant, Ingrid, and nShift Delivery Checkout, enabling seamless label printing and shipment booking. This integration streamlines the logistics process, ensuring efficient handling of prepared shipments, and simplifying the fulfillment workflow for businesses using these transportation systems.
+
+- nShift

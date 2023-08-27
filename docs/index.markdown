@@ -3,13 +3,10 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
+nav_order: 10
+
 ---
 
+# Home of owlstreet documentation
 
-
-{: .note }
-A paragraph
-
-# Headline
-
-## Sub header
+test

@@ -1,0 +1,2931 @@
+openapi: 3.0.1
+info:
+  title: Owlstreet
+  description: >-
+    Owlstreet API documentation for implementors building their own
+    integration. You will find examples and documentation for the
+    object model here as well.
+  contact:
+    name: Nexer Unified Commerce AB
+    url: https://owlstreet.io/
+  license:
+    name: Custom License
+  version: v1
+servers:
+  - url: api-stage.owlstreet.online
+    description: Stage environment
+  - url: api.owlstreet.online
+    description: Production environment
+paths:
+  /router/api/v1/configuration/encrypt:
+    post:
+      tags:
+        - Configuration
+      summary: Encrypt a value using the integration specific encryption key.
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "ENCRYPTEDSTRINGVALUE="
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+        - apiKey: []
+  /router/api/v1/configuration/decrypt:
+    post:
+      tags:
+        - Configuration
+      summary: Decrypt value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+  /router/api/v1/configuration:
+    get:
+      tags:
+        - Configuration
+      summary: Find the current configuration based on the current token provided
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+  /router/api/v1/configuration/{id}:
+    get:
+      tags:
+        - Configuration
+      summary: Find the current configuration based on the current token provided
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+  /router:
+    get:
+      tags:
+        - Endpoint for validating connectivity
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  connector: 
+  /router/api/v1/ping:
+    get:
+      tags:
+        - Ping
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+  /router/api/v1/queue/admin/findbyid/{id}:
+    get:
+      tags:
+        - QueueAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/admin/resend/{id}:
+    get:
+      tags:
+        - QueueAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/deadletter:
+    post:
+      tags:
+        - QueueDeadletter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeadLetter'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DeadLetter'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DeadLetter'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/deadletter/findbyid/{id}:
+    get:
+      tags:
+        - QueueDeadletter
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/deadletter/resend/{id}:
+    get:
+      tags:
+        - QueueDeadletter
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/deadletter/{id}:
+    delete:
+      tags:
+        - QueueDeadletter
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/deadletter/{queue}:
+    get:
+      tags:
+        - QueueDeadletter
+      parameters:
+        - name: queue
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/deadletter/query:
+    get:
+      tags:
+        - QueueDeadletter
+      parameters:
+        - name: queue
+          in: query
+          schema:
+            type: string
+        - name: integration
+          in: query
+          schema:
+            type: string
+        - name: query
+          in: query
+          schema:
+            type: string
+        - name: timefrom
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: timeto
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+        - name: skip
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 0
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/inventory:
+    get:
+      tags:
+        - QueueInventory
+      parameters:
+        - name: acknowledge
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - QueueInventory
+      parameters:
+        - name: acknowledge
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Inventory'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Inventory'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Inventory'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/ledger:
+    get:
+      tags:
+        - QueueLedger
+      summary: >-
+        Get the next batch of leger documents from the queue. The list is a list
+        of Order objects
+      parameters:
+        - name: acknowledge
+          in: query
+          description: ''
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: ''
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - QueueLedger
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LedgerDocument'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LedgerDocument'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LedgerDocument'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/order:
+    get:
+      tags:
+        - QueueOrder
+      summary: >-
+        Get the next batch of orders from the queue. The list is a list of Order
+        objects
+      parameters:
+        - name: acknowledge
+          in: query
+          description: ''
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: ''
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - QueueOrder
+      parameters:
+        - name: acknowledge
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Order'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Order'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/price:
+    get:
+      tags:
+        - QueuePrice
+      parameters:
+        - name: acknowledge
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                                      
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - QueuePrice
+      parameters:
+        - name: acknowledge
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Price'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Price'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Price'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/product:
+    get:
+      tags:
+        - QueueProduct
+      summary: >-
+        Get the next batch of products from the queue. The list is a list of
+        Product objects
+      parameters:
+        - name: acknowledge
+          in: query
+          description: ''
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: ''
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - QueueProduct
+      parameters:
+        - name: acknowledge
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+        - name: batchId
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/retry/count:
+    get:
+      tags:
+        - QueueRetry
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/retry/{itemType}:
+    get:
+      tags:
+        - QueueRetry
+      parameters:
+        - name: itemType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/retry:
+    post:
+      tags:
+        - QueueRetry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RetryEntry'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RetryEntry'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RetryEntry'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/queue/shipment:
+    get:
+      tags:
+        - QueueShipment
+      summary: >-
+        Get the next batch of shipments from the queue. The list is a list of
+        Order objects
+      parameters:
+        - name: acknowledge
+          in: query
+          description: ''
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: ''
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server Error
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - QueueShipment
+      parameters:
+        - name: acknowledge
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Shipment'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Shipment'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Shipment'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/token/generate:
+    post:
+      tags:
+        - Token
+      summary: Generate a token for a valid user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestToken'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RequestToken'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/RequestToken'
+      responses:
+        '200':
+          description: Success
+          
+        '500':
+          description: Server Error
+  /router/api/v1/transformationtable:
+    get:
+      tags:
+        - TransformationTable
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - TransformationTable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransformationTable'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/TransformationTable'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/TransformationTable'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+    put:
+      tags:
+        - TransformationTable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransformationTableEntry'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/TransformationTableEntry'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/TransformationTableEntry'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/transformationtable/{code}:
+    get:
+      tags:
+        - TransformationTable
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+  /router/api/v1/transformationtable/{id}:
+    delete:
+      tags:
+        - TransformationTable
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - oauth2: []
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        address1:
+          type: string
+          nullable: true
+        address2:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        zip:
+          type: string
+          nullable: true
+        state:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        contact:
+          type: string
+          nullable: true
+        instructions:
+          type: string
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    AttributeValue:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        attributeId:
+          type: string
+          format: uuid
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        localName:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        valueCode:
+          type: string
+          nullable: true
+        stringValue:
+          type: string
+          nullable: true
+        dateValue:
+          type: string
+          format: date-time
+          nullable: true
+        booleanValue:
+          type: boolean
+          nullable: true
+        numberValue:
+          type: number
+          format: double
+          nullable: true
+        integerValue:
+          type: integer
+          format: int32
+          nullable: true
+        localeValue:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        rangeValue:
+          $ref: '#/components/schemas/NumberRange'
+        listOfValueEntry:
+          $ref: '#/components/schemas/ListOfValueEntry'
+        multiValue:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeValue'
+          nullable: true
+        uom:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    ApiQueueResponse:
+      type: object
+      properties:
+        queue:
+          type: string
+          nullable: false
+          example: product
+          description: The queue on which the entries are returned from
+        integration:
+          type: string
+          nullable: false
+          example: shopify
+        count:
+          type: integer
+          nullable: false
+          description: The total number of entries on queue
+        acknowledge:
+          type: string
+          nullable: false
+          description: The acknowledge token used to acknowledge this batch of queue entries
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        parentId:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        parentExternalId:
+          type: string
+          nullable: true
+        name:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    Connector:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        connectorCode:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        version:
+          type: string
+          nullable: true
+        authType:
+          type: string
+          nullable: true
+        primaryUrl:
+          type: string
+          nullable: true
+        secondaryUrl:
+          type: string
+          nullable: true
+        apiToken:
+          type: string
+          nullable: true
+        username:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+        settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Setting'
+          nullable: true
+      additionalProperties: false
+    CrossReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        uom:
+          type: string
+          nullable: true
+        uomQuantity:
+          type: number
+          format: double
+          nullable: true
+        typeValue:
+          type: string
+          nullable: true
+        targetValue:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        deleted:
+          type: boolean
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        companyName:
+          type: string
+          nullable: true
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        address:
+          $ref: '#/components/schemas/Address'
+        deliveryAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    DeadLetter:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        serial:
+          type: integer
+          format: int64
+          nullable: true
+        integration:
+          type: string
+          nullable: true
+        connector:
+          type: string
+          nullable: true
+        jobCode:
+          type: string
+          nullable: true
+        messageType:
+          type: string
+          nullable: true
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+          nullable: true
+        deleted:
+          type: boolean
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        target:
+          type: string
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        statusAsText:
+          type: string
+          nullable: true
+        statusAsNumber:
+          type: integer
+          format: int32
+          nullable: true
+        errorMessage:
+          type: string
+          nullable: true
+        errorStage:
+          type: string
+          nullable: true
+        payload:
+          type: string
+          nullable: true
+        sourcePayload:
+          type: string
+          nullable: true
+        errorCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    DeleteEntityRequest:
+      type: object
+      properties:
+        objectType:
+          type: string
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+      additionalProperties: false
+    DeliveryInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        pickupPointId:
+          type: string
+          nullable: true
+        preparedShipmentId:
+          type: string
+          nullable: true
+        tackingNumber:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    ExtendedInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        infoTypeId:
+          type: string
+          format: uuid
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        numberValue:
+          type: number
+          format: double
+          nullable: true
+        integerValue:
+          type: integer
+          format: int32
+          nullable: true
+        booleanValue:
+          type: boolean
+          nullable: true
+        dateValue:
+          type: string
+          format: date-time
+          nullable: true
+        stringValue:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+          readOnly: true
+      additionalProperties: false
+    Filter:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        filterType:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+        expression:
+          type: string
+          nullable: true
+        transformationTableCode:
+          type: string
+          nullable: true
+        settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Setting'
+          nullable: true
+      additionalProperties: false
+    Integration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        signature:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+          nullable: true
+        debug:
+          type: boolean
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        modules:
+          type: array
+          items:
+            type: string
+          nullable: true
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        modified:
+          type: string
+          format: date-time
+          nullable: true
+        connector:
+          $ref: '#/components/schemas/Connector'
+        settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Setting'
+          nullable: true
+        subscribers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscriber'
+          nullable: true
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Publisher'
+          nullable: true
+      additionalProperties: false
+    Inventory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        lineId:
+          type: string
+          nullable: true
+        transactionType:
+          type: string
+          nullable: true
+        reasonCode:
+          type: string
+          nullable: true
+        partNo:
+          type: string
+          nullable: true
+        warehouseId:
+          type: string
+          nullable: true
+        supplierId:
+          type: string
+          nullable: true
+        quantity:
+          type: number
+          format: double
+          nullable: true
+        deltaQuantity:
+          type: number
+          format: double
+          nullable: true
+        reservedQuantity:
+          type: number
+          format: double
+          nullable: true
+        physicalQuantity:
+          type: number
+          format: double
+          nullable: true
+        incomingQuantity:
+          type: number
+          format: double
+          nullable: true
+        transferQuantity:
+          type: number
+          format: double
+          nullable: true
+        nextExpectedIncomingDate:
+          type: string
+          format: date-time
+          nullable: true
+        planning:
+          type: array
+          items:
+            $ref: '#/components/schemas/InventoryPlanningEntry'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    InventoryPlanningEntry:
+      type: object
+      properties:
+        future:
+          type: boolean
+        history:
+          type: boolean
+        periodStart:
+          type: string
+          format: date-time
+        periodEnd:
+          type: string
+          format: date-time
+          nullable: true
+        quantityAvailableIn:
+          type: number
+          format: double
+          nullable: true
+        quantityAvailableOut:
+          type: number
+          format: double
+          nullable: true
+        quantityIncoming:
+          type: number
+          format: double
+          nullable: true
+        quantityOutgoing:
+          type: number
+          format: double
+          nullable: true
+        quantityAdjustments:
+          type: number
+          format: double
+          nullable: true
+        unitCost:
+          type: number
+          format: double
+          nullable: true
+        unitPrice:
+          type: number
+          format: double
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        partNo:
+          type: string
+          nullable: true
+        localId:
+          type: string
+          nullable: true
+        productExternalId:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        uom:
+          type: string
+          nullable: true
+        manufacturerPartNo:
+          type: string
+          nullable: true
+        vatType:
+          type: string
+          nullable: true
+        name:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        description:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeValue'
+          nullable: true
+        crossReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrossReference'
+          nullable: true
+        structureItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructureItem'
+          nullable: true
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Price'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        primaryImage:
+          $ref: '#/components/schemas/Resource'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductRange'
+          nullable: true
+        inventory:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inventory'
+          nullable: true
+        uoms:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemUom'
+          nullable: true
+        purchasePrice:
+          type: number
+          format: double
+          nullable: true
+        purchasePriceCurrency:
+          type: string
+          nullable: true
+        netWeight:
+          type: number
+          format: double
+          nullable: true
+        grossWeight:
+          type: number
+          format: double
+          nullable: true
+        length:
+          type: number
+          format: double
+          nullable: true
+        width:
+          type: number
+          format: double
+          nullable: true
+        height:
+          type: number
+          format: double
+          nullable: true
+        depth:
+          type: number
+          format: double
+          nullable: true
+        diameter:
+          type: number
+          format: double
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        deleted:
+          type: boolean
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ItemUom:
+      type: object
+      properties:
+        partNo:
+          type: string
+          nullable: true
+        uom:
+          type: string
+          nullable: true
+        baseUom:
+          type: string
+          nullable: true
+        count:
+          type: number
+          format: double
+          nullable: true
+        width:
+          type: number
+          format: double
+          nullable: true
+        length:
+          type: number
+          format: double
+          nullable: true
+        height:
+          type: number
+          format: double
+          nullable: true
+        weight:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    LedgerDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        documentDate:
+          type: string
+          format: date-time
+          nullable: true
+        postingDate:
+          type: string
+          format: date-time
+          nullable: true
+        documentId:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        journalId:
+          type: string
+          nullable: true
+        resourceId:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        documentUrl:
+          type: string
+          nullable: true
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/LedgerEntry'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    LedgerEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        lineNumber:
+          type: integer
+          format: int32
+        externalId:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        journalId:
+          type: string
+          nullable: true
+        resourceId:
+          type: string
+          nullable: true
+        accountId:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        quantity:
+          type: number
+          format: double
+          nullable: true
+        debitAmount:
+          type: number
+          format: double
+          nullable: true
+        creditAmount:
+          type: number
+          format: double
+          nullable: true
+        project:
+          type: string
+          nullable: true
+        dimension1:
+          type: string
+          nullable: true
+        dimension2:
+          type: string
+          nullable: true
+        dimension3:
+          type: string
+          nullable: true
+        dimension4:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    Line:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        lineNumber:
+          type: integer
+          format: int32
+          nullable: true
+        parentLineNumber:
+          type: integer
+          format: int32
+          nullable: true
+        lineType:
+          type: string
+          nullable: true
+        partNo:
+          type: string
+          nullable: true
+        customerReference:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+        url:
+          type: string
+          nullable: true
+        warehouseExternalId:
+          type: string
+          nullable: true
+        vatType:
+          type: string
+          nullable: true
+        quantity:
+          type: number
+          format: double
+          nullable: true
+        uom:
+          type: string
+          nullable: true
+        quantityShipped:
+          type: number
+          format: double
+          nullable: true
+          deprecated: true
+        quantityHandled:
+          type: number
+          format: double
+          nullable: true
+        quantityInvoiced:
+          type: number
+          format: double
+          nullable: true
+        pricePerItemExclVat:
+          type: number
+          format: double
+        pricePerItemVat:
+          type: number
+          format: double
+        pricePerItemInclVat:
+          type: number
+          format: double
+          nullable: true
+        discountPerItemExlVat:
+          type: number
+          format: double
+          nullable: true
+        discountPerItemVat:
+          type: number
+          format: double
+          nullable: true
+        purchaseCostExlVat:
+          type: number
+          format: double
+          nullable: true
+        taxDeductionAmount:
+          type: number
+          format: double
+          nullable: true
+        totalLineAmount:
+          type: number
+          format: double
+          nullable: true
+        directDelivery:
+          type: boolean
+          nullable: true
+        reasonCode:
+          type: string
+          nullable: true
+        requestedDate:
+          type: string
+          format: date-time
+          nullable: true
+        confirmedDate:
+          type: string
+          format: date-time
+          nullable: true
+        actualDate:
+          type: string
+          format: date-time
+          nullable: true
+        instructionsAsJson:
+          type: string
+          nullable: true
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeValue'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    ListOfValueEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        listOfValueId:
+          type: string
+          format: uuid
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        localeValue:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        value:
+          type: string
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    NumberRange:
+      type: object
+      properties:
+        min:
+          type: number
+          format: double
+        max:
+          type: number
+          format: double
+      additionalProperties: false
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        orderId:
+          type: string
+          nullable: true
+        relateToOrderId:
+          type: string
+          nullable: true
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        deleted:
+          type: boolean
+          nullable: true
+        orderType:
+          type: string
+          nullable: true
+        customerReferenceNumber:
+          type: string
+          nullable: true
+        customerReferenceName:
+          type: string
+          nullable: true
+        buyer:
+          $ref: '#/components/schemas/Customer'
+        payer:
+          $ref: '#/components/schemas/Customer'
+        shipTo:
+          $ref: '#/components/schemas/Customer'
+        seller:
+          $ref: '#/components/schemas/Customer'
+        currency:
+          type: string
+          nullable: true
+        warehouseExternalId:
+          type: string
+          nullable: true
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+          nullable: true
+        deliveryInfo:
+          $ref: '#/components/schemas/DeliveryInfo'
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/Line'
+          nullable: true
+        totalAmountInclVat:
+          type: number
+          format: double
+        totalAmountExclVat:
+          type: number
+          format: double
+        totalVat:
+          type: number
+          format: double
+        freightExclVat:
+          type: number
+          format: double
+        freightVat:
+          type: number
+          format: double
+        freightInclVat:
+          type: number
+          format: double
+        totalDiscountInclVat:
+          type: number
+          format: double
+        totalDiscountExclVat:
+          type: number
+          format: double
+        totalDiscountVat:
+          type: number
+          format: double
+        taxDeductionAmount:
+          type: number
+          format: double
+          nullable: true
+        centRoundingAmount:
+          type: number
+          format: double
+          nullable: true
+        hasTaxDeduction:
+          type: boolean
+          nullable: true
+        manualTax:
+          type: boolean
+          nullable: true
+        taxOrderExternalId:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        subCode:
+          type: string
+          nullable: true
+        amount:
+          type: number
+          format: double
+          nullable: true
+        reservedAmount:
+          type: number
+          format: double
+          nullable: true
+        capturedAmount:
+          type: number
+          format: double
+          nullable: true
+        reference:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        currency:
+          type: string
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    Price:
+      type: object
+      example: 
+          externalId: 102918-RETAIL-PCS-SEK
+          partNo: 102918
+          uom: PCS
+          currency: SEK
+          priceListId: RETAIL
+          isPriceInclVat: false
+          salesPrice: 160
+          vat: 40
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+          title: Unique identifier, system generated
+          description: Identifier that is system generated either by a source system or by the router when messages are processed.
+        externalId:
+          type: string
+          nullable: true
+          title: External Identifier
+          description: The external identifier of the price making it unique. This usually involves the price list id, the currency code and the part number. If the price is also dependant on quantitites or dates, then they need to be included as well if that makes the price entries different.
+        partNo:
+          type: string
+          nullable: false
+          title: Part number
+          description: This is the part number or sku for which the price is for. This field is required. 
+        uom:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        priceListId:
+          type: string
+          nullable: true
+        currency:
+          type: string
+          nullable: true
+        isPriceInclVat:
+          type: boolean
+          nullable: true
+        previousPrice:
+          type: number
+          format: double
+          nullable: true
+        salesPrice:
+          type: number
+          format: double
+          nullable: true
+        vat:
+          type: number
+          format: double
+          nullable: true
+        minimumQuantity:
+          type: number
+          format: double
+          nullable: true
+        validFrom:
+          type: string
+          format: date-time
+          nullable: true
+        validUntil:
+          type: string
+          format: date-time
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        localId:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        groupById:
+          type: string
+          nullable: true
+        name:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        description:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          nullable: true
+        manufacturerCode:
+          type: string
+          nullable: true
+        primaryItem:
+          $ref: '#/components/schemas/Item'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          nullable: true
+        primaryCategory:
+          $ref: '#/components/schemas/Category'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+          nullable: true
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeValue'
+          nullable: true
+        variantAttributeCodes:
+          type: array
+          items:
+            type: string
+          nullable: true
+        variantDefinitionCode:
+          type: string
+          nullable: true
+        productDefinitionCode:
+          type: string
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductRange'
+          nullable: true
+        primaryImage:
+          $ref: '#/components/schemas/Resource'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+          nullable: true
+        commodityCode:
+          type: string
+          nullable: true
+        countryOfOrigin:
+          type: string
+          nullable: true
+        crossReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrossReference'
+          nullable: true
+        deleted:
+          type: boolean
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ProductRange:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+        endDate:
+          type: string
+          format: date-time
+      additionalProperties: false
+    Publisher:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        messageType:
+          type: string
+          nullable: true
+        queueType:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+          nullable: true
+        debug:
+          type: boolean
+          nullable: true
+        deduplicate:
+          type: boolean
+          nullable: true
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filter'
+          nullable: true
+        transformations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transformation'
+          nullable: true
+        settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Setting'
+          nullable: true
+        topic:
+          type: string
+          nullable: true
+      additionalProperties: false
+    RequestToken:
+      type: object
+      properties:
+        token:
+          type: string
+          nullable: true
+        username:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+        tenant:
+          type: string
+          nullable: true
+        integration:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        mimeType:
+          type: string
+          nullable: true
+        url:
+          type: string
+          nullable: true
+        checksum:
+          type: string
+          nullable: true
+        lastModified:
+          type: string
+          format: date-time
+          nullable: true
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeValue'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+      additionalProperties: false
+    RetryEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        modified:
+          type: string
+          format: date-time
+          nullable: true
+        deleted:
+          type: boolean
+          nullable: true
+        retryCount:
+          type: integer
+          format: int32
+        itemType:
+          type: string
+          nullable: true
+        sourceId1:
+          type: string
+          nullable: true
+        sourceId2:
+          type: string
+          nullable: true
+        sourceId3:
+          type: string
+          nullable: true
+        payload:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Setting:
+      type: object
+      properties:
+        active:
+          type: boolean
+        code:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+        values:
+          type: array
+          items:
+            type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Shipment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        orderExternalId:
+          type: string
+          nullable: true
+        documentId:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        deliveryInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryInfo'
+          nullable: true
+        sourceWarehouseExternalId:
+          type: string
+          nullable: true
+        targetWarehouseExternalId:
+          type: string
+          nullable: true
+        shipFrom:
+          $ref: '#/components/schemas/Customer'
+        shipTo:
+          $ref: '#/components/schemas/Customer'
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/Line'
+          nullable: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+        extendedInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedInfo'
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        systemSourceIntegrationCode:
+          type: string
+          nullable: true
+        systemTargetIntegrationCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    StructureItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        externalId:
+          type: string
+          nullable: true
+        partNo:
+          type: string
+          nullable: true
+        uom:
+          type: string
+          nullable: true
+        quantity:
+          type: number
+          format: double
+      additionalProperties: false
+    Subscriber:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        messageType:
+          type: string
+          nullable: true
+        queueType:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+          nullable: true
+        debug:
+          type: boolean
+          nullable: true
+        deduplicate:
+          type: boolean
+          nullable: true
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filter'
+          nullable: true
+        transformations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transformation'
+          nullable: true
+        settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Setting'
+          nullable: true
+        topicRegex:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Tag:
+      type: object
+      properties:
+        externalId:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    TenantConfiguration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+        deleted:
+          type: boolean
+          nullable: true
+        signature:
+          type: string
+          nullable: true
+        license:
+          type: string
+          nullable: true
+        icon:
+          type: string
+          nullable: true
+        environment:
+          type: string
+          nullable: true
+        partner:
+          type: string
+          nullable: true
+        modules:
+          type: array
+          items:
+            type: string
+          nullable: true
+        expirationDate:
+          type: string
+          format: date-time
+        integrations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Integration'
+          nullable: true
+      additionalProperties: false
+    Transformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        transformationType:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+        expression:
+          type: string
+          nullable: true
+        transformationTable:
+          type: string
+          nullable: true
+        settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Setting'
+          nullable: true
+      additionalProperties: false
+    TransformationTable:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        metadataCategory:
+          type: string
+          nullable: true
+        numberOfEntries:
+          type: integer
+          format: int32
+          nullable: true
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransformationTableEntry'
+          nullable: true
+      additionalProperties: false
+    TransformationTableEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        modifiedAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdBy:
+          type: string
+          nullable: true
+        modifiedBy:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        sourceMetadataCode:
+          type: string
+          nullable: true
+        target:
+          type: string
+          nullable: true
+        targetMetadataCode:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        sourceValue:
+          type: string
+          nullable: true
+        sourceName:
+          type: string
+          nullable: true
+        targetValue:
+          type: string
+          nullable: true
+        targetName:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+          nullable: true
+        suggested:
+          type: boolean
+          nullable: true
+        suggestions:
+          type: string
+          nullable: true
+      additionalProperties: false
+  securitySchemes:
+    oauth2:
+      type: apiKey
+      in: header
+      name: authorization
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+externalDocs:
+  description: https://owlstreet.io/
+  url: https://owlstreet.io/

@@ -24,6 +24,8 @@ The connector is expected to accept authorization using the headers used by the 
 ### Subscribe
 When a job is started for a connector, this is what is supposed to happen on a subscribe job.
 
+See [Building a subscriber C# example](subscriber-example.html)
+
 * Authenticate 
 * Register job in jobstatus endpoint
 * Find next batch of messages from queue
@@ -49,6 +51,8 @@ This is the normal cycle for a job.
 ### Publish
 
 When a job is started for a connector, this is what is supposed to happen on a subscribe job.
+
+See [Building a publisher C# example](publisher-example.html)
 
 * Authenticate 
 * Register job in jobstatus endpoint
